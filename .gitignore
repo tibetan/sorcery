@@ -1,0 +1,15 @@
+/.phpcs-cache
+/.phpunit.result.cache
+/clover.xml
+/coveralls-upload.json
+/phpunit.xml
+.idea/*
+vendor/*
+bin/*
+composer.*
+!composer.json
+!build/coverage-checker.php
+build/*
+docker-compose.yml
+
+
