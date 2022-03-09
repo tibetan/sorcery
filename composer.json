@@ -63,7 +63,6 @@
         "mezzio/mezzio-fastroute": "^3.0.3",
         "mezzio/mezzio-laminasviewrenderer": "^2.2",
         "mezzio/mezzio-hal": "^2.4",
-        "mongodb/mongodb": "^1.9.0-alpha1",
         "vlucas/phpdotenv": "^5.3.0"
     },
     "require-dev": {

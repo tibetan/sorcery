@@ -3,7 +3,7 @@ FROM php:8-fpm
 RUN apt-get update
 
 # Some basic extensions
-RUN docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql
+#RUN docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql
 
 # Curl
 RUN apt-get install -y libcurl4-openssl-dev
@@ -18,6 +18,7 @@ RUN apt-get install -y libicu-dev
 RUN docker-php-ext-install -j$(nproc) intl
 
 # Zip
+RUN apt-get install -y libzip-dev zip
 RUN docker-php-ext-install -j$(nproc) zip
 
 # MongoDB
