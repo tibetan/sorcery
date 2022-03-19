@@ -56,14 +56,16 @@
         "laminas/laminas-component-installer": "^2.6",
         "laminas/laminas-config-aggregator": "^1.6",
         "laminas/laminas-diactoros": "^2.7",
+        "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stdlib": "^3.6",
         "mezzio/mezzio": "^3.7",
-        "mezzio/mezzio-helpers": "^5.7",
-        "laminas/laminas-servicemanager": "^3.4",
         "mezzio/mezzio-fastroute": "^3.0.3",
-        "mezzio/mezzio-laminasviewrenderer": "^2.2",
         "mezzio/mezzio-hal": "^2.4",
-        "vlucas/phpdotenv": "^5.3.0"
+        "mezzio/mezzio-helpers": "^5.7",
+        "mezzio/mezzio-laminasviewrenderer": "^2.2",
+        "mezzio/mezzio-problem-details": "^1.6",
+        "vlucas/phpdotenv": "^5.3.0",
+        "mongodb/mongodb": "^1.11"
     },
     "require-dev": {
         "laminas/laminas-development-mode": "^3.3.0",

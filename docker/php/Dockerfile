@@ -5,6 +5,12 @@ RUN apt-get update
 # Some basic extensions
 #RUN docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql
 
+# Install composer
+RUN curl -sS https://getcomposer.org/installer \
+    | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
+    && composer global require hirak/prestissimo
+
 # Curl
 RUN apt-get install -y libcurl4-openssl-dev
 RUN docker-php-ext-install -j$(nproc) curl
