@@ -5,10 +5,13 @@
 /phpunit.xml
 .idea/*
 vendor/*
+/mongodb/
 bin/*
 composer.*
 !composer.json
 !build/coverage-checker.php
 build/*
 docker-compose.yml
-/mongodb/
+#.env
+#.env.dev
+#.env.prod
