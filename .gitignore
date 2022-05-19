@@ -12,6 +12,6 @@ composer.*
 !build/coverage-checker.php
 build/*
 docker-compose.yml
-#.env
-#.env.dev
-#.env.prod
+.env
+.env.dev
+.env.prod

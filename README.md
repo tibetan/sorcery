@@ -60,3 +60,11 @@ Please note that the installer tests remove installed config files and templates
 before and after running the tests.
 
 Before contributing read [the contributing guide](https://github.com/mezzio/.github/blob/master/CONTRIBUTING.md).
+
+## Copy .env variables with default environment configuration
+
+```bash
+$ cp ./.env.example ./.env 
+```
+**Note:** After copy need to fill the file .env 
+
