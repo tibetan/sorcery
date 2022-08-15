@@ -10,6 +10,10 @@ if (PHP_SAPI === 'cli-server' && $_SERVER['SCRIPT_FILENAME'] !== __FILE__) {
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
+// Config is in $_ENV variable form /public/.env
+$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 /**
  * Self-called anonymous function that creates its own scope and keeps the global namespace clean.
  */
@@ -22,7 +26,7 @@ require 'vendor/autoload.php';
     $factory = $container->get(\Mezzio\MiddlewareFactory::class);
 
     // Execute programmatic/declarative middleware pipeline and routing
-    // configuration statements
+    // configuration statementsSentrySentry
     (require 'config/pipeline.php')($app, $factory, $container);
     (require 'config/routes.php')($app, $factory, $container);
 

@@ -2,14 +2,12 @@ FROM php:8-fpm
 
 RUN apt-get update
 
-# Some basic extensions
-#RUN docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql
-
 # Install composer
-RUN curl -sS https://getcomposer.org/installer \
-    | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer config -g repo.packagist composer https://packagist.phpcomposer.com \
-    && composer global require hirak/prestissimo
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Some basic extensions
+#RUN apt-get install -y iputils-ping && \
+#    docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql
 
 # Curl
 RUN apt-get install -y libcurl4-openssl-dev
@@ -28,19 +26,22 @@ RUN apt-get install -y libzip-dev zip
 RUN docker-php-ext-install -j$(nproc) zip
 
 # MongoDB
-RUN apt-get install -y libssl-dev
+RUN apt-get update && apt-get install -y libssl-dev
 RUN pecl install mongodb && docker-php-ext-enable mongodb
-RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+#RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
+#COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 #xDebug
-RUN yes | pecl install xdebug \
-    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini
+RUN pecl install xdebug-3.1.5 \
+    && docker-php-ext-enable xdebug
 
+# Create composer cache dir
 ARG PUID=1000
-RUN usermod -u ${PUID} www-data \
-    && groupmod -g ${PUID} www-data
+RUN mkdir -p /var/www/.composer \
+    && chown -R ${PUID}:${PUID} /var/www/.composer
+
+RUN usermod -u ${PUID} www-data && groupmod -g ${PUID} www-data
+USER www-data
+
 ARG PROJECT_PATH=/var/www/html
 WORKDIR ${PROJECT_PATH}

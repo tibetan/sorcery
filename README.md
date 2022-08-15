@@ -52,11 +52,11 @@ local `$cacheConfig` variable.
 Need to go to the php container and run install/update composer 
 
 ```bash
-$ docker exec -it sorcery_php_1 /bin/bash
+$ docker exec -it --user www-data php_sorcery /bin/bash
 $ composer install(/update)
 ```
 
-Please note that the installer tests remove installed config files and templates
+**Note:** Please note that the installer tests remove installed config files and templates
 before and after running the tests.
 
 Before contributing read [the contributing guide](https://github.com/mezzio/.github/blob/master/CONTRIBUTING.md).
@@ -65,6 +65,8 @@ Before contributing read [the contributing guide](https://github.com/mezzio/.git
 
 ```bash
 $ cp ./.env.example ./.env 
+$ cd /public
+$ cp .env.example .env 
 ```
-**Note:** After copy need to fill the file .env 
+**Note:** After copy need to fill the files .env 
 
