@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Products\Storage\ProductsStorage;
+
 /**
  * The configuration provider for the App module
  *
@@ -19,6 +21,10 @@ class ConfigProvider
      */
     public function __invoke(): array
     {
+//        $productsStorage = new ProductsStorage();
+//        $productsStorage->findAll();
+//        var_dump($productsStorage);
+//        exit;
         return [
             'dependencies' => $this->getDependencies(),
             'templates'    => $this->getTemplates(),
@@ -32,10 +38,13 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Handler\PingHandler::class => Handler\PingHandler::class,
+                Root\Handler\PingHandler::class => Root\Handler\PingHandler::class,
             ],
             'factories'  => [
-                Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+                Root\Handler\HomePageHandler::class => Root\Handler\HomePageHandlerFactory::class,
+                Products\Handler\ProductGetHandler::class => Products\Factory\ProductGetHandlerFactory::class,
+                Products\Handler\ProductsGetHandler::class => Products\Factory\ProductsGetHandlerFactory::class,
+                Products\Storage\ProductsStorage::class => Products\Factory\ProductsStorageFactory::class,
             ],
         ];
     }

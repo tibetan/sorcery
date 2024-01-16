@@ -14,10 +14,12 @@ $cacheConfig = [
 ];
 
 $aggregator = new ConfigAggregator([
+    \Laminas\Validator\ConfigProvider::class,
+    \Laminas\Paginator\ConfigProvider::class,
+    \Laminas\Hydrator\ConfigProvider::class,
     \Mezzio\ProblemDetails\ConfigProvider::class,
     \Mezzio\Hal\ConfigProvider::class,
     \Mezzio\Tooling\ConfigProvider::class,
-    \Mezzio\LaminasView\ConfigProvider::class,
     \Mezzio\Helper\ConfigProvider::class,
     \Mezzio\Router\FastRouteRouter\ConfigProvider::class,
     \Laminas\HttpHandlerRunner\ConfigProvider::class,
@@ -33,6 +35,7 @@ $aggregator = new ConfigAggregator([
         : function (): array {
             return [];
         },
+    Common\ConfigProvider::class,
     // Default App module config
     App\ConfigProvider::class,
     // Load application config in a pre-defined order in such a way that local settings

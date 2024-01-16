@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Handler;
+namespace App\Root\Handler;
 
 use Chubbyphp\Container\MinimalContainer;
 use DI\Container as PHPDIContainer;
@@ -19,6 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use MongoDB;
 
 class HomePageHandler implements RequestHandlerInterface
 {

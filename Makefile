@@ -114,12 +114,22 @@ dc-bsp-prometheus: ## Собрать промежуточный прометеу
 ########################################################################################################################
 
 dc-up: ## Запуск локального окружения
-	./nginx/replacer.sh ./nginx/template ./nginx/local ./.env
-	docker-compose pull
-	docker-compose up -d
+	docker-compose up -d --build
 
 dc-down: ## Остановка локального окружения
 	docker-compose down
+
+composer-install-dev: ## Выполнить установку php зависимостей (работает на поднятом проекте)
+	docker exec -it -u www-data php_sorcery composer install
+
+composer-install-prod: ## Выполнить установку php зависимостей для прода (работает на поднятом проекте)
+	docker exec -it -u www-data php_sorcery composer install --no-dev
+
+composer-update-dev: ## Выполнить обновление php зависимостей (работает на поднятом проекте)
+	docker exec -it -u www-data php_sorcery composer update
+
+composer-update-prod: ## Выполнить обновление php зависимостей для прода (работает на поднятом проекте)
+	docker exec -it -u www-data php_sorcery composer update --no-dev
 
 build-backend: ## Сбилдить backend (работает на поднятом проекте)
 	$(WORKSPACE_NO_TTY) sh -c "composer install -vv"

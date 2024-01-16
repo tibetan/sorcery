@@ -8,7 +8,7 @@ services:
         volumes:
             - ./mongodb:/data/db
         ports:
-            - 27017:27017
+            - ${MONGO_PORT}:${MONGO_PORT}
         environment:
             MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
@@ -22,11 +22,10 @@ services:
         restart: always
         volumes:
             - ./docker/php/conf/php.ini:/usr/local/etc/php/conf.d/custom.ini
-            - ./docker/php/conf/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
             - ./docker/php/conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
             - ./:${PROJECT_ROOT}
-        #links:
-        #    - mongodb
+        environment:
+            - MONGODB_CONNSTRING=mongodb://${MONGO_USER}:${MONGO_ROOT_PASSWORD}@mongodb:${MONGO_PORT}
         depends_on:
             - mongodb
 

@@ -38,6 +38,24 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-    $app->get('/', App\Handler\HomePageHandler::class, 'home');
-    $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
+    $app->get('/', App\Root\Handler\HomePageHandler::class, 'home');
+    $app->get('/api/ping', App\Root\Handler\PingHandler::class, 'api.ping');
+
+    $app->get('/api/products[/]',
+        [
+            App\Products\Handler\ProductsGetHandler::class
+        ],
+        'api.products'
+    );
+
+    $app->get('/api/products/{id}[/]',
+        [
+            App\Products\Handler\ProductGetHandler::class
+        ],
+        'api.product'
+    )->setOptions([
+        'tokens' => [
+            'id' => '\w\d+',
+        ],
+    ]);
 };

@@ -11,7 +11,7 @@ chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
 // Config is in $_ENV variable form /public/.env
-$dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 /**

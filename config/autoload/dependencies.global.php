@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Mezzio\Hal\Renderer;
+
 return [
     // Provides application-wide services.
     // We recommend using fully-qualified class names whenever possible as
@@ -17,6 +19,7 @@ return [
         // class name.
         'invokables' => [
             // Fully\Qualified\InterfaceName::class => Fully\Qualified\ClassName::class,
+            Renderer\JsonRenderer::class => Renderer\JsonRenderer::class,
         ],
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories' => [
