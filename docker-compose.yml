@@ -5,14 +5,8 @@ services:
         image: mongo
         container_name: mongo_sorcery
         restart: always
-        volumes:
-            - ./mongodb:/data/db
         ports:
-            - ${MONGO_PORT}:${MONGO_PORT}
-        environment:
-            MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+            - ${MONGODB_PORT}:${MONGODB_PORT}
 
     php:
         build: docker/php
@@ -24,8 +18,6 @@ services:
             - ./docker/php/conf/php.ini:/usr/local/etc/php/conf.d/custom.ini
             - ./docker/php/conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
             - ./:${PROJECT_ROOT}
-        environment:
-            - MONGODB_CONNSTRING=mongodb://${MONGO_USER}:${MONGO_ROOT_PASSWORD}@mongodb:${MONGO_PORT}
         depends_on:
             - mongodb
 

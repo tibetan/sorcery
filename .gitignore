@@ -12,7 +12,6 @@ composer.*
 !composer.lock
 !build/coverage-checker.php
 build/*
-docker-compose.yml
 .env
 .env.dev
 .env.prod
