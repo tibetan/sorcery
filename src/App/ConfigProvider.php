@@ -21,13 +21,8 @@ class ConfigProvider
      */
     public function __invoke(): array
     {
-//        $productsStorage = new ProductsStorage();
-//        $productsStorage->findAll();
-//        var_dump($productsStorage);
-//        exit;
         return [
             'dependencies' => $this->getDependencies(),
-            'templates'    => $this->getTemplates(),
         ];
     }
 
@@ -38,27 +33,13 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Root\Handler\PingHandler::class => Root\Handler\PingHandler::class,
+//                Root\Handler\PingHandler::class => Root\Handler\PingHandler::class,
             ],
             'factories'  => [
-                Root\Handler\HomePageHandler::class => Root\Handler\HomePageHandlerFactory::class,
+//                Root\Handler\HomePageHandler::class => Root\Handler\HomePageHandlerFactory::class,
                 Products\Handler\ProductGetHandler::class => Products\Factory\ProductGetHandlerFactory::class,
                 Products\Handler\ProductsGetHandler::class => Products\Factory\ProductsGetHandlerFactory::class,
                 Products\Storage\ProductsStorage::class => Products\Factory\ProductsStorageFactory::class,
-            ],
-        ];
-    }
-
-    /**
-     * Returns the templates configuration
-     */
-    public function getTemplates(): array
-    {
-        return [
-            'paths' => [
-                'app'    => ['templates/app'],
-                'error'  => ['templates/error'],
-                'layout' => ['templates/layout'],
             ],
         ];
     }

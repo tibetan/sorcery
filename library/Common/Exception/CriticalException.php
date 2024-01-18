@@ -23,4 +23,15 @@ class CriticalException extends \RuntimeException implements
         $e->additional['transaction'] = $details;
         return $e;
     }
+
+    public static function noConnectionMongodb(string $message, array $details): self
+    {
+        $e = new self($message);
+        $e->status = 500;
+        $e->detail = $message;
+        $e->type = 'Mongo DB';
+        $e->title = 'No connection with Mongo DB';
+        $e->additional['transaction'] = $details;
+        return $e;
+    }
 }

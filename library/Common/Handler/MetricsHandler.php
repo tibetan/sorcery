@@ -15,7 +15,7 @@ use Laminas\Diagnostics\Runner\Runner;
 
 class MetricsHandler implements RequestHandlerInterface
 {
-    private const PROMETHEUS_NAME = '%s_%s_%s_%s{environment="%s", uid="%s", response="%s"} %d';
+    private const SORCERY_NAME = '%s_%s_%s_%s{environment="%s", uid="%s", response="%s"} %d';
 
     protected ConfigInterface $config;
     protected Runner $runner;
@@ -36,15 +36,15 @@ class MetricsHandler implements RequestHandlerInterface
 
         $strings[] = sprintf(
             '%s_http_life{environment="%s", uid="%s", response="Ok"} 1',
-            $this->config->get('prometheus.serviceName'),
+            $this->config->get('sorcery.serviceName'),
             $environment,
             $uid
         );
 
         foreach ($this->runner->getChecks() as $checkerName => $checkerClass) {
             $strings[] = sprintf(
-                self::PROMETHEUS_NAME,
-                $this->config->get('prometheus.serviceName'),
+                self::SORCERY_NAME,
+                $this->config->get('sorcery.serviceName'),
                 $this->config->get('diagnostics.' . $checkerName . '.prefix'),
                 $checkerName,
                 $this->config->get('diagnostics.' . $checkerName . '.suffix'),

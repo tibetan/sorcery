@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Products\Handler;
 
-use App\Exception\NotFoundException;
+use Common\Exception\NotFoundException;
 use App\Products\Entity\Products;
 use App\Products\Storage\ProductsStorage;
 use Mezzio\Hal\HalResponseFactory;

@@ -21,8 +21,9 @@ use Psr\Container\ContainerInterface;
 /**
  * Setup middleware pipeline:
  */
-
 return function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
+    $app->pipe(LoggerMiddleware::class);
+
     // The error handler should be the first (most outer) middleware to catch
     // all Exceptions.
     $app->pipe(ErrorHandler::class);
