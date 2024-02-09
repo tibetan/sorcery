@@ -47,5 +47,6 @@ RUN mkdir -p /var/www/.composer \
 RUN usermod -u ${PUID} www-data && groupmod -g ${PUID} www-data
 USER www-data
 
+
 ARG PROJECT_PATH=/var/www/html
 WORKDIR ${PROJECT_PATH}
