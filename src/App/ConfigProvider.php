@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Products\Storage\ProductsStorage;
-
 /**
  * The configuration provider for the App module
  *
@@ -37,9 +35,10 @@ class ConfigProvider
             ],
             'factories'  => [
 //                Root\Handler\HomePageHandler::class => Root\Handler\HomePageHandlerFactory::class,
-                Products\Handler\ProductGetHandler::class => Products\Factory\ProductGetHandlerFactory::class,
-                Products\Handler\ProductsGetHandler::class => Products\Factory\ProductsGetHandlerFactory::class,
                 Products\Storage\ProductsStorage::class => Products\Factory\ProductsStorageFactory::class,
+                Products\Handler\ProductGetHandler::class => Products\Factory\ProductGetHandlerFactory::class,
+                Products\Handler\ProductPostHandler::class => Products\Factory\ProductPostHandlerFactory::class,
+                Products\Handler\ProductsGetHandler::class => Products\Factory\ProductsGetHandlerFactory::class,
             ],
         ];
     }

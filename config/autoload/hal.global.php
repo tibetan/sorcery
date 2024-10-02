@@ -24,14 +24,14 @@ return [
         [
             '__class__' => RouteBasedResourceMetadata::class,
             'resource_class' => Products::class,
-            'route' => 'api.product',
+            'route' => 'api.get.product',
             'extractor' => ClassMethodsHydrator::class,
         ],
         [
             '__class__' => RouteBasedCollectionMetadata::class,
             'collection_class' => ProductsCollection::class,
-            'collection_relation' => 'api.product',
-            'route' => 'api.products',
+            'collection_relation' => 'api.get.product',
+            'route' => 'api.get.products',
         ],
     ],
 ];

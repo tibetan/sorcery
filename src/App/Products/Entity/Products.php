@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Products\Entity;
 
-use App\Exception\ValidationException;
+use Common\Exception\ValidationException;
 use Common\Entity\AbstractEntity;
+use Common\Entity\EntityInterface;
 use Laminas\Validator\NotEmpty;
 use Laminas\Validator\StringLength;
 use MongoDB\BSON\Unserializable;
 
-class Products extends AbstractEntity //implements Unserializable
+class Products extends AbstractEntity implements Unserializable, EntityInterface
 {
     protected string $id;
     protected string $title;

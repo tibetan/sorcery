@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Common\Entity;
 
-use App\Exception\ValidationException;
+use Common\Exception\ValidationException;
 use Laminas\Validator\ValidatorChain;
 use Laminas\Validator\ValidatorInterface;
 use MongoDB\BSON\Unserializable;

@@ -42,21 +42,29 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
 //    $app->get('/api/ping', App\Root\Handler\PingHandler::class, 'api.ping');
 
     $app->get('/metrics[/]', Common\Handler\MetricsHandler::class, 'metrics');
+
     $app->get('/api/products[/]',
         [
             App\Products\Handler\ProductsGetHandler::class
         ],
-        'api.products'
+        'api.get.products'
     );
 
     $app->get('/api/products/{id}[/]',
         [
             App\Products\Handler\ProductGetHandler::class
         ],
-        'api.product'
+        'api.get.product'
     )->setOptions([
         'tokens' => [
             'id' => '\w\d+',
         ],
     ]);
+
+    $app->post('/api/products[/]',
+        [
+            App\Products\Handler\ProductPostHandler::class
+        ],
+        'api.post.product'
+    );
 };

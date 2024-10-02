@@ -5,7 +5,7 @@ namespace App\Products\Storage;
 
 use App\Products\Entity\Products;
 use App\Products\Entity\ProductsCollection;
-//use App\Exception\StorageException;
+use Common\Exception\StorageException;
 use Common\Entity\EntityInterface;
 use Common\Paginator\Adapter\MongoAdapter;
 use Common\Storage\AbstractStorage;
@@ -62,20 +62,21 @@ class ProductsStorage extends AbstractStorage implements
 
     public function insertOne(EntityInterface $entity): InsertOneResult
     {
-        if (!$entity instanceof Products)
-//            throw StorageException::collectionHasWrongInstance('Entity must be a `Message`');
+        if (!$entity instanceof Products) {
+            throw StorageException::collectionHasWrongInstance('Entity must be a `Products`');
+        }
 
         $response = $this->getCollection()->insertOne([
             '_id' => new ObjectId($entity->getId()),
-            'topic_id' => new ObjectId($entity->getTopicId()),
-            'message' => $entity->getMessage(),
-            'dt_created' => new \MongoDB\BSON\UTCDateTime($entity->getDtCreated()),
-            'creator' => $entity->getCreator(),
-            'subscribers_read' => []
+            'title' => $entity->getTitle(),
+//            'message' => $entity->getMessage(),
+//            'dt_created' => new \MongoDB\BSON\UTCDateTime($entity->getDtCreated()),
+//            'creator' => $entity->getCreator(),
+//            'subscribers_read' => []
         ]);
 
         if ($response->getInsertedCount() == 0)
-//            throw StorageException::wrongOperation('Insert operation for message is wrong');
+            throw StorageException::wrongOperation('Insert operation for message is wrong');
 
         return $response;
     }

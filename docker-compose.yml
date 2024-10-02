@@ -1,13 +1,4 @@
-version: '3.9'
-
 services:
-    mongodb:
-        image: mongo
-        container_name: mongo_sorcery
-        restart: always
-        ports:
-            - ${MONGODB_PORT}:${MONGODB_PORT}
-
     php:
         build: docker/php
         container_name: php_sorcery
@@ -20,6 +11,8 @@ services:
             - ./:${PROJECT_ROOT}
         depends_on:
             - mongodb
+        networks:
+            - sorcery-backend
 
     nginx:
         image: nginx:latest
@@ -32,3 +25,18 @@ services:
             - ./:${PROJECT_ROOT}
         depends_on:
             - php
+        networks:
+            - sorcery-backend
+
+    mongodb:
+        image: mongo
+        container_name: mongo_sorcery
+        restart: always
+        ports:
+            - ${MONGODB_PORT}:${MONGODB_PORT}
+        networks:
+            - sorcery-backend
+
+networks:
+    sorcery-backend:
+        driver: bridge

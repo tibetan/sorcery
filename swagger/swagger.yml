@@ -1,0 +1,263 @@
+openapi: 3.0.0
+servers: ["url":"http://mezzio/test/api"]
+info:
+  description: This is a API for skeleton service qqqq
+  version: "0.0.1"
+  title: Skeleton API
+  contact:
+    email: vleontiev@englishdom.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: rpc
+    description: RPC API requests
+  - name: user
+    description: API for user
+  - name: application
+    description: API for application
+paths:
+  /ping/:
+    get:
+      summary: Ping
+      operationId: ping
+      tags:
+        - rpc
+      responses:
+        '200':
+          description: Ping response with current date
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PingResponse"
+        '500':
+          description: Server error
+  /user/{id}/:
+    get:
+      summary: Get one user
+      operationId: getUser
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          schema:
+            type: integer
+            example: '1'
+      responses:
+        '200':
+          description: User
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        '404':
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResultProblem'
+        '500':
+          description: Server error
+  /application/{id}/:
+    get:
+      summary: Get one application
+      operationId: getApplication
+      tags:
+        - application
+      parameters:
+        - name: id
+          in: path
+          description: Application id
+          required: true
+          schema:
+            type: integer
+            example: '1'
+      responses:
+        '200':
+          description: Application
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/ApplicationResponse"
+        '404':
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/NotFoundResultProblem'
+        '500':
+          description: Server error
+  /applications/:
+    get:
+      summary: Get list of applications
+      operationId: getApplications
+      tags:
+        - application
+      parameters:
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+            example: '1'
+      responses:
+        '200':
+          description: List of applications
+          content:
+            application/hal+json:
+              schema:
+                $ref: "#/components/schemas/ApplicationsResponse"
+        '400':
+          description: Query validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/BadParametersApiProblem'
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    NotFoundResultProblem:
+      type: object
+      description: PSR-7 Problem Details for HTTP API responses and middleware
+      properties:
+        transaction:
+          type: object
+        title:
+          type: string
+          example: "Not found"
+        type:
+          type: string
+          example: "http://api/doc/not-found-exception"
+        status:
+          type: integer
+          example: 404
+        detail:
+          type: string
+          example: "Not found something"
+    BadParametersApiProblem:
+      type: object
+      properties:
+        type:
+          type: string
+          example: https://httpstatus.es/500
+        title:
+          type: string
+          example: Internal Server Error
+        detail:
+          type: string
+          example: null
+    PingResponse:
+      type: object
+      properties:
+        date:
+          type: string
+          format: datetime
+          example: "2019-09-11T11:28:42+00:00"
+    UserResponse:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: "test"
+        - type: object
+          properties:
+            _links:
+              type: object
+              properties:
+                self:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: "http://mezzio/test/api/user/1/"
+            _embedded:
+              type: object
+              properties:
+                applications:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ApplicationResponse'
+    ApplicationResponse:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            message:
+              type: string
+              example: "application"
+        - type: object
+          properties:
+            _links:
+              type: object
+              properties:
+                self:
+                  type: object
+                  properties:
+                    href:
+                      type: string
+                      example: "http://mezzio/test/api/application/1/"
+            _embedded:
+              type: object
+              properties:
+                user:
+                  type: object
+    ApplicationsResponse:
+      type: object
+      properties:
+        _total_items:
+          type: integer
+          example: '5'
+        _page:
+          type: integer
+          example: '1'
+        _page_count:
+          type: integer
+          example: '3'
+        _links:
+          type: object
+          properties:
+            self:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "http://mezzio/test/api/applications/?page=1"
+            next:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "http://mezzio/test/api/applications/?page=2"
+            last:
+              type: object
+              properties:
+                href:
+                  type: string
+                  example: "http://mezzio/test/api/applications/?page=3"
+        _embedded:
+          type: object
+          properties:
+            test.api.application:
+              type: array
+              items:
+                $ref: "#/components/schemas/ApplicationResponse"
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []

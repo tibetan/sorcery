@@ -50,40 +50,40 @@
         }
     },
     "require": {
-        "php": "^8.2",
-        "ext-mongodb": "*",
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
         "ext-amqp": "*",
-        "composer/package-versions-deprecated": "^1.10.99",
+        "ext-mongodb": "*",
+        "composer/package-versions-deprecated": "^1.11",
         "graylog2/gelf-php": "^2.0",
         "laminas/laminas-component-installer": "^3.4",
-        "laminas/laminas-config-aggregator": "^1.6",
-        "laminas/laminas-diactoros": "^2.7",
+        "laminas/laminas-config-aggregator": "^1.15",
+        "laminas/laminas-diactoros": "^2.26",
         "laminas/laminas-diagnostics": "^1.25",
-        "laminas/laminas-hydrator": "^4.5",
+        "laminas/laminas-hydrator": "^4.15",
         "laminas/laminas-log": "^2.17",
-        "laminas/laminas-paginator": "^2.13",
-        "laminas/laminas-servicemanager": "^3.4",
-        "laminas/laminas-stdlib": "^3.6",
-        "laminas/laminas-validator": "^2.24",
-        "lcobucci/jwt": "^5.2",
-        "mezzio/mezzio": "^3.7",
-        "mezzio/mezzio-fastroute": "^3.0.3",
-        "mezzio/mezzio-hal": "^2.8",
-        "mezzio/mezzio-helpers": "^5.7",
-        "mezzio/mezzio-problem-details": "^1.6",
-        "mongodb/mongodb": "^1.11",
-        "swagger-api/swagger-ui": "^5.11",
-        "vlucas/phpdotenv": "^5.3.0"
+        "laminas/laminas-paginator": "^2.18",
+        "laminas/laminas-servicemanager": "^3.22",
+        "laminas/laminas-stdlib": "^3.19",
+        "laminas/laminas-validator": "^2.64",
+        "lcobucci/jwt": "^5.3",
+        "mezzio/mezzio": "^3.19",
+        "mezzio/mezzio-fastroute": "^3.11",
+        "mezzio/mezzio-hal": "^2.9",
+        "mezzio/mezzio-helpers": "^5.16",
+        "mezzio/mezzio-problem-details": "^1.14",
+        "mongodb/mongodb": "^1.20",
+        "swagger-api/swagger-ui": "^5.17",
+        "vlucas/phpdotenv": "^5.6"
     },
     "require-dev": {
         "behat/behat": "^3.14",
-        "filp/whoops": "^2.7.1",
+        "filp/whoops": "^2.16",
         "imbo/behat-api-extension": "^5.0",
-        "laminas/laminas-development-mode": "^3.3.0",
-        "mezzio/mezzio-tooling": "^2.1",
-        "phpspec/prophecy": "^1.18",
-        "phpspec/prophecy-phpunit": "^2.1",
-        "phpunit/phpunit": "^9.5",
+        "laminas/laminas-development-mode": "^3.12",
+        "mezzio/mezzio-tooling": "^2.9",
+        "phpspec/prophecy": "^1.19",
+        "phpspec/prophecy-phpunit": "^2.2",
+        "phpunit/phpunit": "^9.6",
         "roave/security-advisories": "dev-master"
     },
     "autoload": {
@@ -98,8 +98,18 @@
         }
     },
     "scripts": {
+        "swagger:build": "cp -r $(pwd)/vendor/swagger-api/swagger-ui/dist/* $(pwd)/public/api/swagger",
+        "swagger:deploy": "cp -r $(pwd)/swagger/* $(pwd)/public/api/swagger",
         "post-create-project-cmd": [
             "@development-enable"
+        ],
+        "post-install-cmd": [
+            "@swagger:build",
+            "@swagger:deploy"
+        ],
+        "post-update-cmd": [
+            "@swagger:build",
+            "@swagger:deploy"
         ],
         "development-disable": "laminas-development-mode disable",
         "development-enable": "laminas-development-mode enable",

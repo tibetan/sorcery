@@ -16,22 +16,12 @@ use function sprintf;
 
 class MongoAdapter implements AdapterInterface
 {
-    protected Collection $collection;
-    protected string $entityClass;
-    protected array $filter;
-    protected array $options;
-
     public function __construct(
-        Collection $collection,
-        string $entityClass,
-        array $filter = [],
-        array $options = []
-    ) {
-        $this->collection  = $collection;
-        $this->entityClass = $entityClass;
-        $this->filter = $filter;
-        $this->options = $options;
-    }
+        protected Collection $collection,
+        protected string $entityClass,
+        protected array $filter = [],
+        protected array $options = []
+    ) {}
 
     /**
      * {@inheritDoc}

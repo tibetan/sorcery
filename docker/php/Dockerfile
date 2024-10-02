@@ -5,9 +5,10 @@ RUN apt-get update
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Some basic extensions
-#RUN apt-get install -y iputils-ping && \
-#    docker-php-ext-install -j$(nproc) json mbstring opcache pdo pdo_mysql
+# Opcache
+RUN apt-get install -y libfreetype6-dev && \
+		docker-php-ext-configure opcache && \
+		docker-php-ext-install -j$(nproc) opcache
 
 # Amqp
 RUN apt-get install -y librabbitmq-dev && \
