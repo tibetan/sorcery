@@ -67,4 +67,15 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         ],
         'api.post.product'
     );
+
+    $app->delete('/api/products/{id}[/]',
+        [
+            App\Products\Handler\ProductDeleteHandler::class
+        ],
+        'api.delete.product'
+    )->setOptions([
+        'tokens' => [
+            'id' => '\w\d+',
+        ],
+    ]);
 };

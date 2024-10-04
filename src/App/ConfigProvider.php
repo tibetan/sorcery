@@ -37,8 +37,9 @@ class ConfigProvider
 //                Root\Handler\HomePageHandler::class => Root\Handler\HomePageHandlerFactory::class,
                 Products\Storage\ProductsStorage::class => Products\Factory\ProductsStorageFactory::class,
                 Products\Handler\ProductGetHandler::class => Products\Factory\ProductGetHandlerFactory::class,
-                Products\Handler\ProductPostHandler::class => Products\Factory\ProductPostHandlerFactory::class,
                 Products\Handler\ProductsGetHandler::class => Products\Factory\ProductsGetHandlerFactory::class,
+                Products\Handler\ProductPostHandler::class => Products\Factory\ProductPostHandlerFactory::class,
+                Products\Handler\ProductDeleteHandler::class => Products\Factory\ProductDeleteHandlerFactory::class,
             ],
         ];
     }

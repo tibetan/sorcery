@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Products\Handler;
 
-use Common\Exception\NotFoundException;
 use App\Products\Entity\Products;
 use App\Products\Storage\ProductsStorage;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
+use Laminas\Hydrator\ClassMethodsHydrator;
 use MongoDB\BSON\ObjectId;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,16 +26,16 @@ class ProductPostHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $data = $request->getParsedBody();
-        $title = $data['title'] ?? null;
 
-        $product = new Products();
+        $hydrator = new ClassMethodsHydrator();
+        $dateTime = new \DateTime();
+
+        $product = $hydrator->hydrate($data, new Products());
         $product->setId((string) new ObjectId());
-        $product->setTitle($title);
+        $product->setCreatedAt($dateTime);
+        $product->setUpdatedAt($dateTime);
 
-        $result = $this->productsStorage->insertOne($product);
-        if (!$result->isAcknowledged()) {
-            throw new \RuntimeException('Failed to insert product.');
-        }
+        $this->productsStorage->insertOne($product);
 
         $resource = $this->resourceGenerator->fromObject($product, $request);
 

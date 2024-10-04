@@ -7,178 +7,293 @@ namespace App\Products\Entity;
 use Common\Exception\ValidationException;
 use Common\Entity\AbstractEntity;
 use Common\Entity\EntityInterface;
+use Laminas\Validator\IsArray;
 use Laminas\Validator\NotEmpty;
 use Laminas\Validator\StringLength;
 use MongoDB\BSON\Unserializable;
+use MongoDB\BSON\Serializable;
+use MongoDB\BSON\UTCDateTime;
 
-class Products extends AbstractEntity implements Unserializable, EntityInterface
+class Products extends AbstractEntity implements Unserializable, Serializable, EntityInterface
 {
-    protected string $id;
-    protected string $title;
-//    protected string $item;
-//    protected float $qty;
-//    protected string $type;
-//    protected string $topicId;
-//    protected string $message;
-//    protected \DateTime $dtCreated;
-//    protected ?\DateTime $dtUpdated = null;
-//    protected string $creator;
-//    protected array $subscribersRead = [];
+    private string $id;
+    private string $name;
+    private array $images = [];
+    private string $thumbnail;
+    private float $price;
+    private string $shortDescription;
+    private string $description;
+    private string $additionalInfo;
+    private string $sku;
+    private string $status;
+    private \DateTime $createdAt;
+    private ?\DateTime $updatedAt = null;
 
+
+    /**
+     * @return string
+     */
     public function getId(): string
     {
         return $this->id;
     }
 
+    /**
+     * @param string $id
+     * @return $this
+     */
     public function setId(string $id): self
     {
         $this->id = $this->validate('id', $id);
         return $this;
     }
 
-//    public function getTopicId(): string
-//    {
-//        return $this->topicId;
-//    }
-//
-//    public function setTopicId(string $topicId): self
-//    {
-//        $this->topicId = $topicId;
-//        return $this;
-//    }
-//
-    public function getTitle(): string
+    /**
+     * @return string
+     */
+    public function getName(): string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): self
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function setName(string $name): self
     {
-        $this->title = $this->validate('title', $title);
+        $this->name = $name;
         return $this;
     }
-//
-//    public function getDtCreated(): \DateTime
-//    {
-//        return $this->dtCreated;
-//    }
-//
-//    public function setDtCreated(\DateTime $dtCreated): self
-//    {
-//        $this->dtCreated = $dtCreated;
-//        return $this;
-//    }
-//
-//    public function getDtUpdated(): ?\DateTime
-//    {
-//        return $this->dtUpdated;
-//    }
-//
-//    public function setDtUpdated(?\DateTime $dtUpdated): self
-//    {
-//        $this->dtUpdated = $dtUpdated;
-//        return $this;
-//    }
-//
-//    public function getCreator(): string
-//    {
-//        return $this->creator;
-//    }
-//
-//    public function setCreator(string $creator): self
-//    {
-//        $this->creator = $creator;
-//        return $this;
-//    }
-//
-//    public function getSubscribersRead(): array
-//    {
-//        return $this->subscribersRead;
-//    }
-//
-//    public function setSubscribersRead(array $subscribersRead): self
-//    {
-//        $this->subscribersRead = $subscribersRead;
-//        return $this;
-//    }
-//
 
-//    public function bsonSerialize(): array
-//    {
-//        return [
-//            '_id' => $this->id,
-//            'title' => $this->title,
-//        ];
-//    }
+    /**
+     * @return array
+     */
+    public function getImages(): array
+    {
+        return $this->images;
+    }
 
+    /**
+     * @param array $images
+     * @return $this
+     */
+    public function setImages(array $images): self
+    {
+        $this->images = $this->validate('images', $images);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThumbnail(): string
+    {
+        return $this->thumbnail;
+    }
+
+    /**
+     * @param string $thumbnail
+     * @return $this
+     */
+    public function setThumbnail(string $thumbnail): self
+    {
+        $this->thumbnail = $thumbnail;
+        return $this;
+    }
+
+    /**
+     * @return float
+     * @return $this
+     */
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param float $price
+     * @return $this
+     */
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortDescription(): string
+    {
+        return $this->shortDescription;
+    }
+
+    /**
+     * @param string $shortDescription
+     * @return $this
+     */
+    public function setShortDescription(string $shortDescription): self
+    {
+        $this->shortDescription = $shortDescription;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription(string $description): self
+    {
+        $this->description = $this->validate('description', $description);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalInfo(): string
+    {
+        return $this->additionalInfo;
+    }
+
+    /**
+     * @param string $additionalInfo
+     * @return $this
+     */
+    public function setAdditionalInfo(string $additionalInfo): self
+    {
+        $this->additionalInfo = $additionalInfo;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSku(): string
+    {
+        return $this->sku;
+    }
+
+    /**
+     * @param string $sku
+     * @return $this
+     */
+    public function setSku(string $sku): self
+    {
+        $this->sku = $sku;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $sku
+     * @return $this
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     * @return $this
+     */
+    public function setCreatedAt(\DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime|null $updatedAt
+     * @return $this
+     */
+    public function setUpdatedAt(?\DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @param array $data
+     * @throws \Exception
+     */
     public function bsonUnserialize(array $data): void
     {
         try {
-            $this->setId((string)$data['_id']);
-            $this->setTitle((string)$data['title'] ?? '');
-//            $this->setTitle(mb_substr($data['title'] ?? '', 0, 999, 'UTF-8'));
-//                ->setMessage(mb_substr($data['message'] ?? '', 0, 999, 'UTF-8'))
-//                ->setDtCreated(!empty($data['dt_created']) ? $data['dt_created']->toDateTime() : null)
-//                ->setDtUpdated(!empty($data['dt_updated']) ? $data['dt_updated']->toDateTime() : null)
-//                ->setCreator($data['creator'])
-//                ->setSubscribersRead($data['subscribers_read'])
-            ;
+            $this->setId((string)$data['_id'])
+                ->setName((string)$data['name'] ?? '')
+                ->setImages((array)$data['images'] ?? [])
+                ->setThumbnail((string)$data['thumbnail'] ?? '')
+                ->setPrice((float)$data['price'] ?? null)
+                ->setShortDescription((string)$data['short_description'] ?? '')
+                ->setDescription((string)$data['description'] ?? '')
+                ->setAdditionalInfo((string)$data['additional_info'] ?? '')
+                ->setSku((string)$data['sku'] ?? '')
+                ->setStatus((string)$data['status'] ?? '')
+                ->setCreatedAt($data['created_at']->toDateTime())
+                ->setUpdatedAt(!empty($data['updated_at']) ? $data['updated_at']->toDateTime() : null);
         } catch (ValidationException $e) {
             $e->addAdditionalData([
                 'product_id' => (string)$data['_id'] ?? 'undefined',
-//                'topic_id' => (string)$data['topic_id'] ?? 'undefined'
             ]);
             throw $e;
         }
     }
 
-//    public function getItem(): string
-//    {
-//        return $this->item;
-//    }
-//
-//    public function setItem(string $item): self
-//    {
-//        $this->item = $item;
-//        return $this;
-//    }
-//
-//    public function getQty(): float
-//    {
-//        return $this->qty;
-//    }
-//
-//    public function setQty(float $qty): self
-//    {
-//        $this->qty = $qty;
-//        return $this;
-//    }
-//
-//    public function getType(): string
-//    {
-//        return $this->type;
-//    }
-//
-//    public function setType(string $type): self
-//    {
-//        $this->type = $type;
-//        return $this;
-//    }
-
-//    public function bsonUnserialize(array $data)
-//    {
-//        $this->setId((string)$data['_id'])
-////            ->setItem((string)$data['item'] ?? '')
-////            ->setQty((float)$data['qty'] ?? 0)
-////            ->setType((string)$data['type'] ?? '')
-////            ->setTopicId((string)$data['topic_id'] ?? '')
-////            ->setMessage(mb_substr($data['message'] ?? '', 0, 999, 'UTF-8'))
-////            ->setDtCreated(!empty($data['dt_created']) ? $data['dt_created']->toDateTime() : null)
-////            ->setDtUpdated(!empty($data['dt_updated']) ? $data['dt_updated']->toDateTime() : null)
-////            ->setCreator($data['creator'])
-////            ->setSubscribersRead($data['subscribers_read'])
-//        ;
-//    }
+    /**
+     * @return array
+     */
+    public function bsonSerialize(): array
+    {
+        return [
+            '_id' => $this->getId(),
+            'name' => $this->getName(),
+            'images' => $this->getImages(),
+            'thumbnail' => $this->getThumbnail(),
+            'price' => $this->getPrice(),
+            'short_description' => $this->getShortDescription(),
+            'description' => $this->getDescription(),
+            'additional_info' => $this->getAdditionalInfo(),
+            'sku' => $this->getSku(),
+            'status' => $this->getStatus(),
+            'created_at' => new UTCDateTime($this->getCreatedAt()->getTimestamp() * 1000),
+            'updated_at' => new UTCDateTime($this->getUpdatedAt()->getTimestamp() * 1000),
+        ];
+    }
 
     public function validators(): array
     {
@@ -192,15 +307,17 @@ class Products extends AbstractEntity implements Unserializable, EntityInterface
                     'break_chain' => true
                 ]
             ],
-            'title' => [
-                NotEmpty::class => [
-                    'break_chain' => true
-                ],
+            'description' => [
                 StringLength::class => [
-                    'options' => ['min' => 1, 'max' => 1000, 'encoding' => 'UTF-8'],
+                    'options' => ['min' => 0, 'max' => 1000, 'encoding' => 'UTF-8'],
                     'break_chain' => true
                 ]
-            ]
+            ],
+            'images' => [
+                IsArray::class => [
+                    'break_chain' => true
+                ]
+            ],
         ];
     }
 }

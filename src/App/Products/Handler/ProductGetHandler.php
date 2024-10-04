@@ -25,7 +25,7 @@ class ProductGetHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $product = $this->productsStorage->findOne(['_id' => new ObjectId($request->getAttribute('id'))]);
+        $product = $this->productsStorage->findOne(['_id' => $request->getAttribute('id')]);
         if (!$product instanceof Products) {
             throw NotFoundException::entity('Not found product', ['id' => $request->getAttribute('id')]);
         }

@@ -13,11 +13,10 @@ use Common\Storage\DeleteOneStorageInterface;
 use Common\Storage\FindAllStorageInterface;
 use Common\Storage\FindOneStorageInterface;
 use Common\Storage\InsertOneStorageInterface;
-use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Unserializable;
+use MongoDB\InsertOneResult;
 use MongoDB\DeleteResult;
 use MongoDB\Exception\InvalidArgumentException;
-use MongoDB\InsertOneResult;
 
 class ProductsStorage extends AbstractStorage implements
     FindAllStorageInterface,
@@ -66,14 +65,7 @@ class ProductsStorage extends AbstractStorage implements
             throw StorageException::collectionHasWrongInstance('Entity must be a `Products`');
         }
 
-        $response = $this->getCollection()->insertOne([
-            '_id' => new ObjectId($entity->getId()),
-            'title' => $entity->getTitle(),
-//            'message' => $entity->getMessage(),
-//            'dt_created' => new \MongoDB\BSON\UTCDateTime($entity->getDtCreated()),
-//            'creator' => $entity->getCreator(),
-//            'subscribers_read' => []
-        ]);
+        $response = $this->getCollection()->insertOne($entity);
 
         if ($response->getInsertedCount() == 0)
             throw StorageException::wrongOperation('Insert operation for message is wrong');
