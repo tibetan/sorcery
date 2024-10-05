@@ -13,15 +13,18 @@ use Common\Storage\DeleteOneStorageInterface;
 use Common\Storage\FindAllStorageInterface;
 use Common\Storage\FindOneStorageInterface;
 use Common\Storage\InsertOneStorageInterface;
+use Common\Storage\UpdateOneStorageInterface;
 use MongoDB\BSON\Unserializable;
+use MongoDB\Exception\InvalidArgumentException;
 use MongoDB\InsertOneResult;
 use MongoDB\DeleteResult;
-use MongoDB\Exception\InvalidArgumentException;
+use MongoDB\UpdateResult;
 
 class ProductsStorage extends AbstractStorage implements
     FindAllStorageInterface,
     FindOneStorageInterface,
     InsertOneStorageInterface,
+    UpdateOneStorageInterface,
     DeleteOneStorageInterface
 {
     public function getCollectionName(): string
@@ -67,8 +70,27 @@ class ProductsStorage extends AbstractStorage implements
 
         $response = $this->getCollection()->insertOne($entity);
 
-        if ($response->getInsertedCount() == 0)
-            throw StorageException::wrongOperation('Insert operation for message is wrong');
+        if ($response->getInsertedCount() == 0) {
+            throw StorageException::wrongOperation('Insert operation for product is wrong');
+        }
+
+        return $response;
+    }
+
+    public function updateOne(
+        EntityInterface $entity,
+        array $update = [],
+        array $options = []
+    ): UpdateResult {
+        if (!$entity instanceof Products) {
+            throw StorageException::collectionHasWrongInstance('Entity must be a `Products`');
+        }
+
+        $response = $this->getCollection()->updateOne(['_id' => $entity->getId()], $update, $options);
+
+        if ($response->getMatchedCount() == 0) {
+            throw StorageException::wrongOperation('Update operation for product is wrong');
+        }
 
         return $response;
     }

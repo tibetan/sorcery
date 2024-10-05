@@ -43,13 +43,6 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
 
     $app->get('/metrics[/]', Common\Handler\MetricsHandler::class, 'metrics');
 
-    $app->get('/api/products[/]',
-        [
-            App\Products\Handler\ProductsGetHandler::class
-        ],
-        'api.get.products'
-    );
-
     $app->get('/api/products/{id}[/]',
         [
             App\Products\Handler\ProductGetHandler::class
@@ -61,12 +54,30 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         ],
     ]);
 
+    $app->get('/api/products[/]',
+        [
+            App\Products\Handler\ProductsGetHandler::class
+        ],
+        'api.get.products'
+    );
+
     $app->post('/api/products[/]',
         [
             App\Products\Handler\ProductPostHandler::class
         ],
         'api.post.product'
     );
+
+    $app->patch('/api/products/{id}[/]',
+        [
+            App\Products\Handler\ProductPatchHandler::class
+        ],
+        'api.patch.product'
+    )->setOptions([
+        'tokens' => [
+            'id' => '\w\d+',
+        ],
+    ]);
 
     $app->delete('/api/products/{id}[/]',
         [

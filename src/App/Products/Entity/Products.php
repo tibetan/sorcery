@@ -303,13 +303,13 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
                     'break_chain' => true
                 ],
                 StringLength::class => [
-                    'options' => ['min' => 1, 'max' => 24],
+                    'options' => ['min' => 24, 'max' => 24],
                     'break_chain' => true
                 ]
             ],
             'description' => [
                 StringLength::class => [
-                    'options' => ['min' => 0, 'max' => 1000, 'encoding' => 'UTF-8'],
+                    'options' => ['max' => 2000, 'encoding' => 'UTF-8'],
                     'break_chain' => true
                 ]
             ],
