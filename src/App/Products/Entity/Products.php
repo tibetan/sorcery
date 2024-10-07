@@ -10,16 +10,18 @@ use Common\Entity\EntityInterface;
 use Laminas\Validator\IsArray;
 use Laminas\Validator\NotEmpty;
 use Laminas\Validator\StringLength;
+use Laminas\Validator\Callback;
 use MongoDB\BSON\Unserializable;
 use MongoDB\BSON\Serializable;
 use MongoDB\BSON\UTCDateTime;
+use MongoDB\BSON\ObjectId;
 
 class Products extends AbstractEntity implements Unserializable, Serializable, EntityInterface
 {
     private string $id;
     private string $name;
     private array $images = [];
-    private string $thumbnail;
+    private string $thumbnail = '';
     private float $price;
     private string $shortDescription;
     private string $description;
@@ -29,6 +31,16 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     private \DateTime $createdAt;
     private ?\DateTime $updatedAt = null;
 
+    /**
+     * Products constructor.
+     */
+    public function __construct()
+    {
+        $dateTime = new \DateTime();
+        $this->setId((string) new ObjectId());
+        $this->setCreatedAt($dateTime);
+        $this->setUpdatedAt($dateTime);
+    }
 
     /**
      * @return string
@@ -98,7 +110,7 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
      */
     public function setThumbnail(string $thumbnail): self
     {
-        $this->thumbnail = $thumbnail;
+        $this->thumbnail = $this->validate('thumbnail', $thumbnail);
         return $this;
     }
 
@@ -316,7 +328,29 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
             'images' => [
                 IsArray::class => [
                     'break_chain' => true
-                ]
+                ],
+                new Callback(function($images) {
+                    foreach ($images as $image) {
+                        if (!preg_match(
+                            "~^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+\~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.\~#?&//=]*)$~",
+                            $image
+                        )){
+                            return false;
+                        }
+                    }
+                    return true;
+                })
+            ],
+            'thumbnail' => [
+                new Callback(function($thumbnail) {
+                    if (!preg_match( //if URL or empty string
+                        "~^((http(s):\/\/.)[-a-zA-Z0-9@:%._\+\~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.\~#?&//=]*))?$~",
+                        $thumbnail
+                    )){
+                        return false;
+                    }
+                    return true;
+                })
             ],
         ];
     }

@@ -1,5 +1,33 @@
 # Installing of the project
 
+## After DB collections will be created
+
+Run scripts from directory `db_queries/`:
+
+```bash
+docker compose exec php php db_queries/01_add_keys_to_products_and_reviews.php
+...
+```
+
+## To create swagger API documentation
+
+```bash
+docker compose exec php composer swagger:build
+```
+for coping needed data from `vendor/` to `public/api/swagger/`,
+and
+
+```bash
+docker compose exec php composer swagger:deploy
+```
+for updating all custom files from `swagger/` directory.
+Url `api/swagger/` will be available.
+
+These commands run also when install or update composer. 
+
+
+
+
 ## Application Development Mode Tool
 
 This project comes with [laminas-development-mode](https://github.com/laminas/laminas-development-mode).

@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\Products\Storage;
+namespace App\Reviews\Storage;
 
-use App\Products\Entity\Products;
-use App\Products\Entity\ProductsCollection;
+use App\Reviews\Entity\Reviews;
+use App\Reviews\Entity\ReviewsCollection;
 use Common\Storage\AbstractStorage;
 
-class ProductsStorage extends AbstractStorage
+class ReviewsStorage extends AbstractStorage
 {
     public function getCollectionName(): string
     {
-        return 'products';
+        return 'reviews';
     }
 
     public function getEntityName(): string
     {
-        return Products::class;
+        return Reviews::class;
     }
 
     public function getEntityCollectionName(): string
     {
-        return ProductsCollection::class;
+        return ReviewsCollection::class;
     }
 }

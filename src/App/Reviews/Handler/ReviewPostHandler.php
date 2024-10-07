@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Products\Handler;
+namespace App\Reviews\Handler;
 
-use App\Products\Entity\Products;
-use App\Products\Storage\ProductsStorage;
+use App\Reviews\Entity\Reviews;
+use App\Reviews\Storage\ReviewsStorage;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
 use Laminas\Hydrator\ClassMethodsHydrator;
@@ -14,12 +14,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ProductPostHandler implements RequestHandlerInterface
+class ReviewPostHandler implements RequestHandlerInterface
 {
     public function __construct(
         protected ResourceGenerator $resourceGenerator,
         protected HalResponseFactory $responseFactory,
-        protected ProductsStorage $productsStorage,
+        protected ReviewsStorage $reviewsStorage,
     ) {
     }
 
@@ -28,10 +28,10 @@ class ProductPostHandler implements RequestHandlerInterface
         $data = $request->getParsedBody();
 
         $hydrator = new ClassMethodsHydrator();
-        $product = $hydrator->hydrate($data, new Products());
-        $this->productsStorage->insertOne($product);
+        $review = $hydrator->hydrate($data, new Reviews());
+        $this->reviewsStorage->insertOne($review);
 
-        $resource = $this->resourceGenerator->fromObject($product, $request);
+        $resource = $this->resourceGenerator->fromObject($review, $request);
 
         return $this->responseFactory->createResponse($request, $resource)
             ->withStatus(201);

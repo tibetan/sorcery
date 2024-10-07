@@ -7,5 +7,4 @@ use MongoDB\Collection;
 interface StorageInterface
 {
     public function getCollection(): Collection;
-    public function getCollectionName(): string;
 }

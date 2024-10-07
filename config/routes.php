@@ -38,55 +38,9 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-//    $app->get('/', App\Root\Handler\HomePageHandler::class, 'home');
-//    $app->get('/api/ping', App\Root\Handler\PingHandler::class, 'api.ping');
-
     $app->get('/metrics[/]', Common\Handler\MetricsHandler::class, 'metrics');
 
-    $app->get('/api/products/{id}[/]',
-        [
-            App\Products\Handler\ProductGetHandler::class
-        ],
-        'api.get.product'
-    )->setOptions([
-        'tokens' => [
-            'id' => '\w\d+',
-        ],
-    ]);
-
-    $app->get('/api/products[/]',
-        [
-            App\Products\Handler\ProductsGetHandler::class
-        ],
-        'api.get.products'
-    );
-
-    $app->post('/api/products[/]',
-        [
-            App\Products\Handler\ProductPostHandler::class
-        ],
-        'api.post.product'
-    );
-
-    $app->patch('/api/products/{id}[/]',
-        [
-            App\Products\Handler\ProductPatchHandler::class
-        ],
-        'api.patch.product'
-    )->setOptions([
-        'tokens' => [
-            'id' => '\w\d+',
-        ],
-    ]);
-
-    $app->delete('/api/products/{id}[/]',
-        [
-            App\Products\Handler\ProductDeleteHandler::class
-        ],
-        'api.delete.product'
-    )->setOptions([
-        'tokens' => [
-            'id' => '\w\d+',
-        ],
-    ]);
+    foreach (glob(__DIR__ . '/routes/*.php') as $routeFile) {
+        (require $routeFile)($app);
+    }
 };
