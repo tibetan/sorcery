@@ -54,7 +54,6 @@
         "ext-amqp": "*",
         "ext-mongodb": "*",
         "composer/package-versions-deprecated": "^1.11",
-        "graylog2/gelf-php": "^2.0",
         "laminas/laminas-component-installer": "^3.4",
         "laminas/laminas-config-aggregator": "^1.15",
         "laminas/laminas-diactoros": "^2.26",

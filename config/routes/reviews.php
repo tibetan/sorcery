@@ -27,4 +27,26 @@ return static function ($app) {
         ],
         'api.post.review'
     );
+
+    $app->patch('/api/reviews/{id}[/]',
+        [
+            App\Reviews\Handler\ReviewPatchHandler::class
+        ],
+        'api.patch.review'
+    )->setOptions([
+        'tokens' => [
+            'id' => '\w\d+',
+        ],
+    ]);
+
+    $app->delete('/api/reviews/{id}[/]',
+        [
+            App\Reviews\Handler\ReviewDeleteHandler::class
+        ],
+        'api.delete.review'
+    )->setOptions([
+        'tokens' => [
+            'id' => '\w\d+',
+        ],
+    ]);
 };

@@ -6,6 +6,7 @@ namespace App\Products\Storage;
 
 use App\Products\Entity\Products;
 use App\Products\Entity\ProductsCollection;
+use Common\Entity\EntityInterface;
 use Common\Storage\AbstractStorage;
 
 class ProductsStorage extends AbstractStorage
@@ -23,5 +24,41 @@ class ProductsStorage extends AbstractStorage
     public function getEntityCollectionName(): string
     {
         return ProductsCollection::class;
+    }
+
+    /**
+     * @param array $filter
+     * @param array $options
+     * @return EntityInterface|null
+     */
+    public function findOneWithReviews(array $filter = [], array $options = [])
+    {
+        if (!isset($options['typeMap'])) {
+            $options['typeMap'] = ['root' => $this->entityName];
+        }
+
+        $pipeline = [
+            [
+                '$match' => $filter
+            ],
+            [
+                '$lookup' => [
+                    'from' => 'reviews',
+                    'localField' => '_id',
+                    'foreignField' => 'product_id',
+                    'as' => 'reviews',
+                ]
+            ]
+        ];
+
+        $result = $this->collection->aggregate($pipeline, $options);
+
+        foreach ($result as $document) {
+            if ($document instanceof $this->entityName) {
+                return $document;
+            }
+        }
+
+        return null;
     }
 }

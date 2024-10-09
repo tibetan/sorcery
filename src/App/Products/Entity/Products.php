@@ -28,6 +28,7 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     private string $additionalInfo;
     private string $sku;
     private string $status;
+    private array $reviews = [];
     private \DateTime $createdAt;
     private ?\DateTime $updatedAt = null;
 
@@ -224,6 +225,24 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     }
 
     /**
+     * @return array
+     */
+    public function getReviews(): array
+    {
+        return $this->reviews;
+    }
+
+    /**
+     * @param array $reviews
+     * @return $this
+     */
+    public function setReviews(array $reviews): self
+    {
+        $this->reviews = $reviews;
+        return $this;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getCreatedAt(): \DateTime
@@ -276,6 +295,7 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
                 ->setAdditionalInfo((string)$data['additional_info'] ?? '')
                 ->setSku((string)$data['sku'] ?? '')
                 ->setStatus((string)$data['status'] ?? '')
+                ->setReviews([])
                 ->setCreatedAt($data['created_at']->toDateTime())
                 ->setUpdatedAt(!empty($data['updated_at']) ? $data['updated_at']->toDateTime() : null);
         } catch (ValidationException $e) {

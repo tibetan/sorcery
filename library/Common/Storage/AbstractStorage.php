@@ -53,8 +53,9 @@ abstract class AbstractStorage implements
 
     public function findOne(array $filter = [], array $options = []): ?EntityInterface
     {
-        if (!isset($options['typeMap']))
+        if (!isset($options['typeMap'])) {
             $options['typeMap'] = ['root' => $this->entityName];
+        }
 
         $document = $this->collection->findOne($filter, $options);
         if (!$document instanceof $this->entityName) return null;

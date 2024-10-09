@@ -216,7 +216,7 @@ class Reviews extends AbstractEntity implements Unserializable, Serializable, En
             'description' => $this->getDescription(),
             'reviewer_name' => $this->getReviewerName(),
             'reviewer_email' => $this->getReviewerEmail(),
-            'product_id' => new ObjectId($this->getProductId()),
+            'product_id' => $this->getProductId(),
             'created_at' => new UTCDateTime($this->getCreatedAt()->getTimestamp() * 1000),
             'updated_at' => new UTCDateTime($this->getUpdatedAt()->getTimestamp() * 1000),
         ];

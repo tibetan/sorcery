@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Products\Handler;
+namespace App\Reviews\Handler;
 
-use App\Products\Entity\Products;
-use App\Products\Storage\ProductsStorage;
+use App\Reviews\Entity\Reviews;
+use App\Reviews\Storage\ReviewsStorage;
 use Common\Exception\NotFoundException;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
@@ -14,21 +14,21 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ProductPatchHandler implements RequestHandlerInterface
+class ReviewPatchHandler implements RequestHandlerInterface
 {
     public function __construct(
         protected ResourceGenerator $resourceGenerator,
         protected HalResponseFactory $responseFactory,
-        protected ProductsStorage $productsStorage,
+        protected ReviewsStorage $reviewsStorage,
     ) {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $product = $this->productsStorage->findOne(['_id' => (string) new ObjectId($request->getAttribute('id'))]);
+        $review = $this->reviewsStorage->findOne(['_id' => (string) new ObjectId($request->getAttribute('id'))]);
 
-        if (!$product instanceof Products) {
-            throw NotFoundException::entity('Not found product', ['id' => $request->getAttribute('id')]);
+        if (!$review instanceof Reviews) {
+            throw NotFoundException::entity('Not found review', ['id' => $request->getAttribute('id')]);
         }
 
         $data = $request->getParsedBody();
@@ -37,9 +37,9 @@ class ProductPatchHandler implements RequestHandlerInterface
             '$currentDate' => ['updated_at' => true],
         ];
 
-        $this->productsStorage->updateOne($product, $update);
+        $this->reviewsStorage->updateOne($review, $update);
 
-        $resource = $this->resourceGenerator->fromObject($product, $request);
+        $resource = $this->resourceGenerator->fromObject($review, $request);
 
         return $this->responseFactory->createResponse($request, $resource)
             ->withStatus(200);

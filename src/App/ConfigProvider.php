@@ -38,11 +38,14 @@ class ConfigProvider
                 Products\Handler\ProductPostHandler::class => Products\Factory\ProductPostHandlerFactory::class,
                 Products\Handler\ProductPatchHandler::class => Products\Factory\ProductPatchHandlerFactory::class,
                 Products\Handler\ProductDeleteHandler::class => Products\Factory\ProductDeleteHandlerFactory::class,
+                Products\Handler\ProductReviewsGetHandler::class => Products\Factory\ProductReviewsGetHandlerFactory::class,
 
                 Reviews\Storage\ReviewsStorage::class => Reviews\Factory\ReviewsStorageFactory::class,
                 Reviews\Handler\ReviewGetHandler::class => Reviews\Factory\ReviewGetHandlerFactory::class,
                 Reviews\Handler\ReviewsGetHandler::class => Reviews\Factory\ReviewsGetHandlerFactory::class,
                 Reviews\Handler\ReviewPostHandler::class => Reviews\Factory\ReviewPostHandlerFactory::class,
+                Reviews\Handler\ReviewPatchHandler::class => Reviews\Factory\ReviewPatchHandlerFactory::class,
+                Reviews\Handler\ReviewDeleteHandler::class => Reviews\Factory\ReviewDeleteHandlerFactory::class,
             ],
         ];
     }
