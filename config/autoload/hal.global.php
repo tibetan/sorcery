@@ -9,20 +9,11 @@ use App\Products\Entity\ProductsCollection;
 use App\Reviews\Entity\Reviews;
 use App\Reviews\Entity\ReviewsCollection;
 
+use App\Categories\Entity\Categories;
+use App\Categories\Entity\CategoriesCollection;
+
 return [
     MetadataMap::class => [
-//        [
-//            '__class__' => RouteBasedResourceMetadata::class,
-//            'resource_class' => Entity\Topic::class,
-//            'route' => 'api.topic',
-//            'extractor' => ClassMethodsHydrator::class,
-//        ],
-//        [
-//            '__class__' => RouteBasedCollectionMetadata::class,
-//            'collection_class' => Entity\TopicCollection::class,
-//            'collection_relation' => 'api.topic',
-//            'route' => 'api.topics',
-//        ],
         [
             '__class__' => RouteBasedResourceMetadata::class,
             'resource_class' => Products::class,
@@ -46,6 +37,18 @@ return [
             'collection_class' => ReviewsCollection::class,
             'collection_relation' => 'api.get.review',
             'route' => 'api.get.reviews',
+        ],
+        [
+            '__class__' => RouteBasedResourceMetadata::class,
+            'resource_class' => Categories::class,
+            'route' => 'api.get.category',
+            'extractor' => ClassMethodsHydrator::class,
+        ],
+        [
+            '__class__' => RouteBasedCollectionMetadata::class,
+            'collection_class' => CategoriesCollection::class,
+            'collection_relation' => 'api.get.category',
+            'route' => 'api.get.categories',
         ],
     ],
 ];

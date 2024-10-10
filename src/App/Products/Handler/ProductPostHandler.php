@@ -9,7 +9,6 @@ use App\Products\Storage\ProductsStorage;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
 use Laminas\Hydrator\ClassMethodsHydrator;
-use MongoDB\BSON\ObjectId;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;

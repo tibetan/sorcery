@@ -6,6 +6,7 @@ declare(strict_types=1);
 //set_time_limit(0);
 
 require 'vendor/autoload.php';
+require '_connect_to_mongo.php';
 
 $mongo = connectToMongo();
 
@@ -22,12 +23,3 @@ if (!$collection instanceof \MongoDB\Collection) {
     $collection = $mongo->selectCollection('reviews');
 }
 $collection->createIndex(['product_id' => 1], ['background' => 1]);
-
-function connectToMongo(): \MongoDB\Database
-{
-    $container = require dirname(__DIR__) . '/config/container.php';
-    $config = $container->get('config');
-
-    $client = new \MongoDB\Client($config['mongodb']['uri']);
-    return $client->selectDatabase($config['mongodb']['database']);
-}

@@ -46,6 +46,13 @@ class ConfigProvider
                 Reviews\Handler\ReviewPostHandler::class => Reviews\Factory\ReviewPostHandlerFactory::class,
                 Reviews\Handler\ReviewPatchHandler::class => Reviews\Factory\ReviewPatchHandlerFactory::class,
                 Reviews\Handler\ReviewDeleteHandler::class => Reviews\Factory\ReviewDeleteHandlerFactory::class,
+
+                Categories\Storage\CategoriesStorage::class => Categories\Factory\CategoriesStorageFactory::class,
+                Categories\Handler\CategoryGetHandler::class => Categories\Factory\CategoryGetHandlerFactory::class,
+                Categories\Handler\CategoriesGetHandler::class => Categories\Factory\CategoriesGetHandlerFactory::class,
+                Categories\Handler\CategoryPostHandler::class => Categories\Factory\CategoryPostHandlerFactory::class,
+                Categories\Handler\CategoryPatchHandler::class => Categories\Factory\CategoryPatchHandlerFactory::class,
+                Categories\Handler\CategoryDeleteHandler::class => Categories\Factory\CategoryDeleteHandlerFactory::class,
             ],
         ];
     }
