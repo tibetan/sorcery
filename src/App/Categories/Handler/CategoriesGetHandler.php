@@ -15,9 +15,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 class CategoriesGetHandler implements RequestHandlerInterface
 {
     public function __construct(
-        protected ResourceGenerator $resourceGenerator,
-        protected HalResponseFactory $responseFactory,
-        protected CategoriesStorage $categoriesStorage,
+        private readonly ResourceGenerator $resourceGenerator,
+        private readonly HalResponseFactory $responseFactory,
+        private readonly CategoriesStorage $categoriesStorage,
     ) {
     }
 

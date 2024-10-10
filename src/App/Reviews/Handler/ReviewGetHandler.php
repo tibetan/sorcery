@@ -17,9 +17,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 class ReviewGetHandler implements RequestHandlerInterface
 {
     public function __construct(
-        protected ResourceGenerator $resourceGenerator,
-        protected HalResponseFactory $responseFactory,
-        protected ReviewsStorage $reviewsStorage,
+        private readonly ResourceGenerator $resourceGenerator,
+        private readonly HalResponseFactory $responseFactory,
+        private readonly ReviewsStorage $reviewsStorage,
     ) {
     }
 

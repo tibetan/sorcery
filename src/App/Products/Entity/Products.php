@@ -295,7 +295,7 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
                 ->setAdditionalInfo((string)$data['additional_info'] ?? '')
                 ->setSku((string)$data['sku'] ?? '')
                 ->setStatus((string)$data['status'] ?? '')
-                ->setReviews((array)$data['reviews'] ?? [])
+                ->setReviews((array)($data['reviews'] ?? []))
                 ->setCreatedAt($data['created_at']->toDateTime())
                 ->setUpdatedAt(!empty($data['updated_at']) ? $data['updated_at']->toDateTime() : null);
         } catch (ValidationException $e) {

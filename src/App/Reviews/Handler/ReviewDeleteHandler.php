@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 class ReviewDeleteHandler implements RequestHandlerInterface
 {
     public function __construct(
-        protected ReviewsStorage $reviewsStorage
+        private readonly ReviewsStorage $reviewsStorage,
     ) {
     }
 

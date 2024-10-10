@@ -15,9 +15,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 class ProductsGetHandler implements RequestHandlerInterface
 {
     public function __construct(
-        protected ResourceGenerator $resourceGenerator,
-        protected HalResponseFactory $responseFactory,
-        protected ProductsStorage $productsStorage,
+        private readonly ResourceGenerator $resourceGenerator,
+        private readonly HalResponseFactory $responseFactory,
+        private readonly ProductsStorage $productsStorage,
     ) {
     }
 

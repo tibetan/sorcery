@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 class CategoryDeleteHandler implements RequestHandlerInterface
 {
     public function __construct(
-        protected CategoriesStorage $categoriesStorage
+        private readonly CategoriesStorage $categoriesStorage,
     ) {
     }
 

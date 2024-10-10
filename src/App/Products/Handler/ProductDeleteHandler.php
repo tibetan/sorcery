@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 class ProductDeleteHandler implements RequestHandlerInterface
 {
     public function __construct(
-        protected ProductsStorage $productsStorage
+        private readonly ProductsStorage $productsStorage,
     ) {
     }
 

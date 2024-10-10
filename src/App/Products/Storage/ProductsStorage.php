@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Products\Storage;
 
 use App\Products\Entity\Products;
-use App\Products\Entity\CategoriesCollection;
+use App\Products\Entity\ProductsCollection;
 use Common\Entity\EntityInterface;
 use Common\Storage\AbstractStorage;
 
@@ -23,7 +23,7 @@ class ProductsStorage extends AbstractStorage
 
     public function getEntityCollectionName(): string
     {
-        return CategoriesCollection::class;
+        return ProductsCollection::class;
     }
 
     /**
