@@ -21,11 +21,11 @@ return static function ($app) {
         'api.get.products'
     );
 
-    $app->get('/api/products/{id}/reviews[/]',
+    $app->get('/api/products/{id}/with-reviews[/]',
         [
             App\Products\Handler\ProductReviewsGetHandler::class
         ],
-        'api.get.product.reviews'
+        'api.get.product.with-reviews'
     )->setOptions([
         'tokens' => [
             'id' => '\w\d+',
