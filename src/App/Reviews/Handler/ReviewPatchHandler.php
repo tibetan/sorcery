@@ -25,10 +25,11 @@ class ReviewPatchHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $review = $this->reviewsStorage->findOne(['_id' => (string) new ObjectId($request->getAttribute('id'))]);
+        $id = $request->getAttribute('id');
+        $review = $this->reviewsStorage->findOne(['_id' => new ObjectId($id)]);
 
         if (!$review instanceof Reviews) {
-            throw NotFoundException::entity('Not found review', ['id' => $request->getAttribute('id')]);
+            throw NotFoundException::entity('Not found review', ['id' => $id]);
         }
 
         $data = $request->getParsedBody();

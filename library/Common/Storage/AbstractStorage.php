@@ -7,6 +7,7 @@ use Common\Entity\EntityInterface;
 use Common\Entity\CollectionInterface;
 use Common\Exception\StorageException;
 use Common\Paginator\Adapter\MongoAdapter;
+use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\Unserializable;
 use MongoDB\Collection;
 use MongoDB\Database;
@@ -97,7 +98,7 @@ abstract class AbstractStorage implements
             throw StorageException::collectionHasWrongInstance('Entity must be a `' . $this->entityName . '`');
         }
 
-        $response = $this->collection->updateOne(['_id' => $entity->getId()], $update, $options);
+        $response = $this->collection->updateOne(['_id' => new ObjectId($entity->getId())], $update, $options);
 
         if ($response->getMatchedCount() == 0) {
             throw StorageException::wrongOperation('Update operation for ' . $this->entityName . ' is wrong');

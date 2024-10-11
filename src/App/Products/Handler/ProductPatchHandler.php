@@ -25,10 +25,11 @@ class ProductPatchHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $product = $this->productsStorage->findOne(['_id' => (string) new ObjectId($request->getAttribute('id'))]);
+        $id = $request->getAttribute('id');
+        $product = $this->productsStorage->findOne(['_id' => new ObjectId($id)]);
 
         if (!$product instanceof Products) {
-            throw NotFoundException::entity('Not found product', ['id' => $request->getAttribute('id')]);
+            throw NotFoundException::entity('Not found product', ['id' => $id]);
         }
 
         $data = $request->getParsedBody();

@@ -7,6 +7,7 @@ namespace App\Reviews\Handler;
 use App\Reviews\Storage\ReviewsStorage;
 use Common\Exception\NotFoundException;
 use Laminas\Diactoros\Response\EmptyResponse;
+use MongoDB\BSON\ObjectId;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -21,7 +22,7 @@ class ReviewDeleteHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $id = $request->getAttribute('id');
-        $response = $this->reviewsStorage->deleteOne(['_id' => $id]);
+        $response = $this->reviewsStorage->deleteOne(['_id' => new ObjectId($id)]);
 
         return ($response->getDeletedCount() > 0)
             ? new EmptyResponse(204, ['Content-Type' => 'application/hal+json'])

@@ -25,7 +25,7 @@ class CategoryGetHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $category = $this->categoriesStorage->findOne(['_id' => (string) new ObjectId($request->getAttribute('id'))]);
+        $category = $this->categoriesStorage->findOne(['_id' => new ObjectId($request->getAttribute('id'))]);
 
         if (!$category instanceof Categories) {
             throw NotFoundException::entity('Not found category', ['id' => $request->getAttribute('id')]);

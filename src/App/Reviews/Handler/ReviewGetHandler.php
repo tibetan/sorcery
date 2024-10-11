@@ -25,7 +25,7 @@ class ReviewGetHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $review = $this->reviewsStorage->findOne(['_id' => (string) new ObjectId($request->getAttribute('id'))]);
+        $review = $this->reviewsStorage->findOne(['_id' => new ObjectId($request->getAttribute('id'))]);
 
         if (!$review instanceof Reviews) {
             throw NotFoundException::entity('Not found review', ['id' => $request->getAttribute('id')]);

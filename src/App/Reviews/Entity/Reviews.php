@@ -179,6 +179,7 @@ class Reviews extends AbstractEntity implements Unserializable, Serializable, En
     public function bsonUnserialize(array $data): void
     {
         try {
+            $dateTime = new \DateTime();
             $this->setId((string)($data['_id'] ?? new ObjectId()))
                 ->setRating((int)$data['rating'])
                 ->setDescription((string)$data['description'] ?? '')
@@ -188,12 +189,12 @@ class Reviews extends AbstractEntity implements Unserializable, Serializable, En
                 ->setCreatedAt(
                     (isset($data['created_at']) && ($data['created_at'] instanceof UTCDateTime))
                         ? $data['created_at']->toDateTime()
-                        : new \DateTime()
+                        : $dateTime
                 )
                 ->setUpdatedAt(
                     (isset($data['updated_at']) && ($data['updated_at'] instanceof UTCDateTime))
                         ? $data['updated_at']->toDateTime()
-                        : new \DateTime()
+                        : $dateTime
                 );
         } catch (ValidationException $e) {
             $e->addAdditionalData([
@@ -209,12 +210,14 @@ class Reviews extends AbstractEntity implements Unserializable, Serializable, En
     public function bsonSerialize(): array
     {
         return [
-            '_id' => $this->getId(),
+            '_id' => new ObjectId($this->getId()),
             'rating' => $this->getRating(),
             'description' => $this->getDescription(),
             'reviewer_name' => $this->getReviewerName(),
             'reviewer_email' => $this->getReviewerEmail(),
-            'product_id' => $this->getProductId(),
+            'product_id' => ($this->getProductId() instanceof ObjectId)
+                ? $this->getProductId()
+                : (new ObjectId($this->getProductId())),
             'created_at' => new UTCDateTime($this->getCreatedAt()->getTimestamp() * 1000),
             'updated_at' => new UTCDateTime($this->getUpdatedAt()->getTimestamp() * 1000),
         ];

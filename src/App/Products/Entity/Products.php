@@ -275,6 +275,7 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     public function bsonUnserialize(array $data): void
     {
         try {
+            $dateTime = new \DateTime();
             $this->setId((string)($data['_id'] ?? new ObjectId()))
                 ->setName((string)$data['name'] ?? '')
                 ->setImages((array)$data['images'] ?? [])
@@ -289,12 +290,12 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
                 ->setCreatedAt(
                     (isset($data['created_at']) && ($data['created_at'] instanceof UTCDateTime))
                         ? $data['created_at']->toDateTime()
-                        : new \DateTime()
+                        : $dateTime
                 )
                 ->setUpdatedAt(
                     (isset($data['updated_at']) && ($data['updated_at'] instanceof UTCDateTime))
                         ? $data['updated_at']->toDateTime()
-                        : new \DateTime()
+                        : $dateTime
                 );
         } catch (ValidationException $e) {
             $e->addAdditionalData([
@@ -310,7 +311,7 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     public function bsonSerialize(): array
     {
         return [
-            '_id' => $this->getId(),
+            '_id' => new ObjectId($this->getId()),
             'name' => $this->getName(),
             'images' => $this->getImages(),
             'thumbnail' => $this->getThumbnail(),

@@ -10,6 +10,7 @@ use App\Reviews\Storage\ReviewsStorage;
 use App\Products\Storage\ProductsStorage;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
+use MongoDB\BSON\ObjectId;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -27,8 +28,7 @@ class ReviewPostHandler implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $data = $request->getParsedBody();
-
-        $productId = $data['product_id'];
+        $productId = new ObjectId($data['product_id']);
         $product = $this->productsStorage->findOne(['_id' => $productId]);
 
         if (!$product) {

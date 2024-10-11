@@ -99,7 +99,7 @@ class Categories extends AbstractEntity implements Unserializable, Serializable,
     public function bsonSerialize(): array
     {
         return [
-            '_id' => $this->getId(),
+            '_id' => new ObjectId($this->getId()),
             'slug' => $this->getSlug(),
             'name' => $this->getName(),
         ];
