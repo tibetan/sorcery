@@ -46,6 +46,7 @@ class ConfigProvider
                 Reviews\Handler\ReviewPostHandler::class => Reviews\Factory\ReviewPostHandlerFactory::class,
                 Reviews\Handler\ReviewPatchHandler::class => Reviews\Factory\ReviewPatchHandlerFactory::class,
                 Reviews\Handler\ReviewDeleteHandler::class => Reviews\Factory\ReviewDeleteHandlerFactory::class,
+                Reviews\Handler\ReviewsGetByProductHandler::class => Reviews\Factory\ReviewsGetByProductHandlerFactory::class,
 
                 Categories\Storage\CategoriesStorage::class => Categories\Factory\CategoriesStorageFactory::class,
                 Categories\Handler\CategoryGetHandler::class => Categories\Factory\CategoryGetHandlerFactory::class,

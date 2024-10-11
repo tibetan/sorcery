@@ -21,16 +21,16 @@ return static function ($app) {
         'api.get.reviews'
     );
 
-//    $app->get('/api/products/{id}/reviews[/]',
-//        [
-//            App\Reviews\Handler\ProductReviewsGetHandler::class
-//        ],
-//        'api.get.product.reviews'
-//    )->setOptions([
-//        'tokens' => [
-//            'id' => '\w\d+',
-//        ],
-//    ]);
+    $app->get('/api/products/{product_id}/reviews[/]',
+        [
+            App\Reviews\Handler\ReviewsGetByProductHandler::class
+        ],
+        'api.get.product.reviews'
+    )->setOptions([
+        'tokens' => [
+            'product_id' => '\w\d+',
+        ],
+    ]);
 
     $app->post('/api/reviews[/]',
         [
