@@ -21,6 +21,17 @@ return static function ($app) {
         'api.get.reviews'
     );
 
+//    $app->get('/api/products/{id}/reviews[/]',
+//        [
+//            App\Reviews\Handler\ProductReviewsGetHandler::class
+//        ],
+//        'api.get.product.reviews'
+//    )->setOptions([
+//        'tokens' => [
+//            'id' => '\w\d+',
+//        ],
+//    ]);
+
     $app->post('/api/reviews[/]',
         [
             App\Reviews\Handler\ReviewPostHandler::class

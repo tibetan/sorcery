@@ -23,7 +23,7 @@ return static function ($app) {
 
     $app->get('/api/products/{id}/with-reviews[/]',
         [
-            App\Products\Handler\ProductReviewsGetHandler::class
+            App\Products\Handler\ProductWithReviewsGetHandler::class
         ],
         'api.get.product.with-reviews'
     )->setOptions([

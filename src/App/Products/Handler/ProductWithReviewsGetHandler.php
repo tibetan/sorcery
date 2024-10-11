@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ProductReviewsGetHandler implements RequestHandlerInterface
+class ProductWithReviewsGetHandler implements RequestHandlerInterface
 {
     public function __construct(
         private readonly ResourceGenerator $resourceGenerator,
