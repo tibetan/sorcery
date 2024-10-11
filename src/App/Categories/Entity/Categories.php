@@ -20,13 +20,6 @@ class Categories extends AbstractEntity implements Unserializable, Serializable,
     private string $slug;
     private string $name;
 
-    /**
-     * Categories constructor.
-     */
-    public function __construct()
-    {
-        $this->setId((string) new ObjectId());
-    }
 
     /**
      * @return string
@@ -89,7 +82,7 @@ class Categories extends AbstractEntity implements Unserializable, Serializable,
     public function bsonUnserialize(array $data): void
     {
         try {
-            $this->setId((string)$data['_id'])
+            $this->setId((string)($data['_id'] ?? new ObjectId()))
                 ->setSlug((string)$data['slug'])
                 ->setName((string)$data['name']);
         } catch (ValidationException $e) {
@@ -129,7 +122,6 @@ class Categories extends AbstractEntity implements Unserializable, Serializable,
                     'break_chain' => true
                 ],
                 Regex::class => [
-//                    'pattern' => '/^\S+$/',
                     'options' => ['pattern' => '/^\S+$/'],
                     'break_chain' => true
                 ],

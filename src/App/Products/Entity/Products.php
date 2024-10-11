@@ -30,18 +30,8 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     private string $status;
     private array $reviews = [];
     private \DateTime $createdAt;
-    private ?\DateTime $updatedAt = null;
+    private \DateTime $updatedAt;
 
-    /**
-     * Products constructor.
-     */
-    public function __construct()
-    {
-        $dateTime = new \DateTime();
-        $this->setId((string) new ObjectId());
-        $this->setCreatedAt($dateTime);
-        $this->setUpdatedAt($dateTime);
-    }
 
     /**
      * @return string
@@ -261,18 +251,18 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     }
 
     /**
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }
 
     /**
-     * @param \DateTime|null $updatedAt
+     * @param \DateTime $updatedAt
      * @return $this
      */
-    public function setUpdatedAt(?\DateTime $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -285,7 +275,7 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
     public function bsonUnserialize(array $data): void
     {
         try {
-            $this->setId((string)$data['_id'])
+            $this->setId((string)($data['_id'] ?? new ObjectId()))
                 ->setName((string)$data['name'] ?? '')
                 ->setImages((array)$data['images'] ?? [])
                 ->setThumbnail((string)$data['thumbnail'] ?? '')
@@ -296,8 +286,16 @@ class Products extends AbstractEntity implements Unserializable, Serializable, E
                 ->setSku((string)$data['sku'] ?? '')
                 ->setStatus((string)$data['status'] ?? '')
                 ->setReviews((array)($data['reviews'] ?? []))
-                ->setCreatedAt($data['created_at']->toDateTime())
-                ->setUpdatedAt(!empty($data['updated_at']) ? $data['updated_at']->toDateTime() : null);
+                ->setCreatedAt(
+                    (isset($data['created_at']) && ($data['created_at'] instanceof UTCDateTime))
+                        ? $data['created_at']->toDateTime()
+                        : new \DateTime()
+                )
+                ->setUpdatedAt(
+                    (isset($data['updated_at']) && ($data['updated_at'] instanceof UTCDateTime))
+                        ? $data['updated_at']->toDateTime()
+                        : new \DateTime()
+                );
         } catch (ValidationException $e) {
             $e->addAdditionalData([
                 'product_id' => (string)$data['_id'] ?? 'undefined',

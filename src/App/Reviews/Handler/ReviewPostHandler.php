@@ -8,8 +8,6 @@ use App\Reviews\Entity\Reviews;
 use App\Reviews\Storage\ReviewsStorage;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
-use Laminas\Hydrator\ClassMethodsHydrator;
-use MongoDB\BSON\ObjectId;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -27,8 +25,9 @@ class ReviewPostHandler implements RequestHandlerInterface
     {
         $data = $request->getParsedBody();
 
-        $hydrator = new ClassMethodsHydrator();
-        $review = $hydrator->hydrate($data, new Reviews());
+        $review = new Reviews();
+        $review->bsonUnserialize($data);
+
         $this->reviewsStorage->insertOne($review);
 
         $resource = $this->resourceGenerator->fromObject($review, $request);

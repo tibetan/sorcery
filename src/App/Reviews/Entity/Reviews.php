@@ -25,18 +25,8 @@ class Reviews extends AbstractEntity implements Unserializable, Serializable, En
     private string $reviewerEmail;
     private string $productId;
     private \DateTime $createdAt;
-    private ?\DateTime $updatedAt = null;
+    private \DateTime $updatedAt;
 
-    /**
-     * Reviews constructor.
-     */
-    public function __construct()
-    {
-        $dateTime = new \DateTime();
-        $this->setId((string) new ObjectId());
-        $this->setCreatedAt($dateTime);
-        $this->setUpdatedAt($dateTime);
-    }
 
     /**
      * @return string
@@ -165,18 +155,18 @@ class Reviews extends AbstractEntity implements Unserializable, Serializable, En
     }
 
     /**
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }
 
     /**
-     * @param \DateTime|null $updatedAt
+     * @param \DateTime $updatedAt
      * @return $this
      */
-    public function setUpdatedAt(?\DateTime $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -189,14 +179,22 @@ class Reviews extends AbstractEntity implements Unserializable, Serializable, En
     public function bsonUnserialize(array $data): void
     {
         try {
-            $this->setId((string)$data['_id'])
+            $this->setId((string)($data['_id'] ?? new ObjectId()))
                 ->setRating((int)$data['rating'])
                 ->setDescription((string)$data['description'] ?? '')
                 ->setReviewerName((string)$data['reviewer_name'] ?? '')
                 ->setReviewerEmail((string)$data['reviewer_email'] ?? '')
                 ->setProductId((string)$data['product_id'] ?? '')
-                ->setCreatedAt($data['created_at']->toDateTime())
-                ->setUpdatedAt(!empty($data['updated_at']) ? $data['updated_at']->toDateTime() : null);
+                ->setCreatedAt(
+                    (isset($data['created_at']) && ($data['created_at'] instanceof UTCDateTime))
+                        ? $data['created_at']->toDateTime()
+                        : new \DateTime()
+                )
+                ->setUpdatedAt(
+                    (isset($data['updated_at']) && ($data['updated_at'] instanceof UTCDateTime))
+                        ? $data['updated_at']->toDateTime()
+                        : new \DateTime()
+                );
         } catch (ValidationException $e) {
             $e->addAdditionalData([
                 'review_id' => (string)$data['_id'] ?? 'undefined',

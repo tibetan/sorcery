@@ -8,7 +8,6 @@ use App\Products\Entity\Products;
 use App\Products\Storage\ProductsStorage;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
-use Laminas\Hydrator\ClassMethodsHydrator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -26,8 +25,9 @@ class ProductPostHandler implements RequestHandlerInterface
     {
         $data = $request->getParsedBody();
 
-        $hydrator = new ClassMethodsHydrator();
-        $product = $hydrator->hydrate($data, new Products());
+        $product = new Products();
+        $product->bsonUnserialize($data);
+
         $this->productsStorage->insertOne($product);
 
         $resource = $this->resourceGenerator->fromObject($product, $request);

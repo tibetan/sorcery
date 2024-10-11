@@ -9,7 +9,6 @@ use App\Categories\Storage\CategoriesStorage;
 use Common\Exception\ValidationException;
 use Mezzio\Hal\HalResponseFactory;
 use Mezzio\Hal\ResourceGenerator;
-use Laminas\Hydrator\ClassMethodsHydrator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -35,8 +34,8 @@ class CategoryPostHandler implements RequestHandlerInterface
             throw ValidationException::emptyParameters('Not found \'name\' field.');
         }
 
-        $hydrator = new ClassMethodsHydrator();
-        $category = $hydrator->hydrate($data, new Categories());
+        $category = new Categories();
+        $category->bsonUnserialize($data);
 
         $this->categoriesStorage->insertOne($category);
 
